@@ -1,0 +1,219 @@
+:root {
+  --bg-1: #2b1a2e;
+  --bg-2: #4a2b45;
+  --bg-3: #7d4a5c;
+  --card: rgba(255, 250, 246, 0.94);
+  --ink: #3a2530;
+  --ink-soft: #7a5a66;
+  --accent: #b5546e;
+  --gold: #c99a5b;
+  --shadow: rgba(40, 12, 30, 0.45);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  padding: 2rem 1.2rem;
+  font-family: "EB Garamond", Georgia, serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 20%, var(--bg-3), transparent 55%),
+              radial-gradient(circle at 80% 80%, var(--bg-2), transparent 55%),
+              linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Daily photo background */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.bg.show { opacity: 1; }
+.bg__veil {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(160deg,
+              rgba(43, 26, 46, 0.55),
+              rgba(74, 43, 69, 0.45) 50%,
+              rgba(43, 26, 46, 0.7));
+}
+
+/* Falling petals */
+.petals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.petals span {
+  position: absolute;
+  top: -8vh;
+  font-size: 1.1rem;
+  opacity: 0;
+  animation: fall linear infinite;
+  will-change: transform, opacity;
+}
+@keyframes fall {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.85; }
+  90%  { opacity: 0.85; }
+  100% { transform: translateY(110vh) rotate(320deg); opacity: 0; }
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  background: var(--card);
+  border-radius: 20px;
+  padding: 2.6rem 2.4rem 2rem;
+  box-shadow: 0 30px 60px -20px var(--shadow), 0 0 0 1px rgba(201, 154, 91, 0.25) inset;
+  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card__head { text-align: center; margin-bottom: 1.8rem; }
+.card__date {
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.card__brand {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink-soft);
+  margin-top: 0.3rem;
+}
+
+.poem { text-align: center; min-height: 220px; }
+.poem.fade { animation: swap 0.5s ease both; }
+@keyframes swap {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.poem__title {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: 1.9rem;
+  line-height: 1.2;
+  color: var(--accent);
+  margin-bottom: 1.3rem;
+}
+.poem__body {
+  font-size: 1.22rem;
+  line-height: 2;
+  font-style: italic;
+  color: var(--ink);
+}
+.poem__body span { display: block; }
+.poem__author {
+  margin-top: 1.4rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+}
+.poem__author::before { content: "— "; }
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid rgba(201, 154, 91, 0.3);
+}
+.btn {
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: rgba(181, 84, 110, 0.1);
+  border: 1px solid rgba(181, 84, 110, 0.3);
+  border-radius: 999px;
+  width: 46px;
+  height: 46px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn--ghost {
+  width: auto;
+  padding: 0 1.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+.btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.btn:active { transform: translateY(0); }
+
+.anniv {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0.9rem;
+  text-align: center;
+}
+.anniv__banner {
+  flex-basis: 100%;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+.anniv__pill {
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  background: rgba(181, 84, 110, 0.09);
+  border: 1px solid rgba(181, 84, 110, 0.22);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+}
+.anniv__pill b {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sign {
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: rgba(255, 244, 238, 0.7);
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 480px) {
+  .card { padding: 2rem 1.4rem 1.6rem; }
+  .poem__body { font-size: 1.1rem; line-height: 1.9; }
+  .poem__title { font-size: 1.6rem; }
+}
