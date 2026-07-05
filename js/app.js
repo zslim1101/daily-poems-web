@@ -111,7 +111,6 @@
     els.anniv.innerHTML = "";
 
     var togetherDays = daysBetween(TOGETHER, date);
-    var metDays = daysBetween(MET, date);
 
     var milestone = getMilestone(date);
     if (milestone) {
@@ -122,7 +121,6 @@
     }
 
     if (togetherDays >= 0) els.anniv.appendChild(pill("Together", togetherDays));
-    if (metDays >= 0) els.anniv.appendChild(pill("Since we met", metDays));
   }
 
   var lastCelebrated = null;
