@@ -212,6 +212,84 @@ body {
   letter-spacing: 0.06em;
 }
 
+/* Anniversary celebration modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+}
+.modal.open { display: flex; }
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 12, 24, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.4s ease both;
+}
+.modal__card {
+  position: relative;
+  z-index: 1;
+  width: min(400px, 100%);
+  text-align: center;
+  background: var(--card);
+  border-radius: 22px;
+  padding: 2.6rem 2rem 2rem;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -18px var(--shadow),
+              0 0 0 1px rgba(201, 154, 91, 0.35) inset;
+  animation: pop 0.6s cubic-bezier(0.18, 1.4, 0.4, 1) both;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop {
+  0%   { opacity: 0; transform: scale(0.8) translateY(16px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal__eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.modal__title {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 500;
+  font-size: 2rem;
+  line-height: 1.15;
+  color: var(--accent);
+  margin: 0.5rem 0 0.6rem;
+}
+.modal__sub {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.8rem;
+}
+.modal__card .btn { position: relative; z-index: 2; }
+.modal__hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.modal__hearts span {
+  position: absolute;
+  bottom: -10%;
+  color: var(--accent);
+  opacity: 0;
+  animation: floatUp linear forwards;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 0; }
+  15%  { opacity: 0.9; }
+  100% { transform: translateY(-360px) scale(1.1) rotate(40deg); opacity: 0; }
+}
+
 @media (max-width: 480px) {
   .card { padding: 2rem 1.4rem 1.6rem; }
   .poem__body { font-size: 1.1rem; line-height: 1.9; }

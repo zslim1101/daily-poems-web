@@ -19,7 +19,12 @@
     bg: document.getElementById("bg"),
     prev: document.getElementById("prev"),
     next: document.getElementById("next"),
-    today: document.getElementById("today")
+    today: document.getElementById("today"),
+    modal: document.getElementById("modal"),
+    modalHearts: document.getElementById("modal-hearts"),
+    modalEyebrow: document.getElementById("modal-eyebrow"),
+    modalTitle: document.getElementById("modal-title"),
+    modalSub: document.getElementById("modal-sub")
   };
 
   var poems = [];
@@ -67,6 +72,40 @@
     return n + " " + word + (n === 1 ? "" : "s");
   }
 
+  // Is `date` a milestone of the together-date? Returns null, or the
+  // celebration copy for a monthly / yearly turn (or day zero).
+  function getMilestone(date) {
+    var togetherDays = daysBetween(TOGETHER, date);
+    if (togetherDays === 0) {
+      return {
+        type: "first",
+        banner: "The day it all began 💗",
+        title: "The day it all began",
+        sub: "Today, we became us."
+      };
+    }
+    if (togetherDays > 0 && date.getDate() === TOGETHER.getDate()) {
+      var md = monthsAndDays(TOGETHER, date);
+      if (md.months <= 0) return null;
+      if (md.months % 12 === 0) {
+        var y = md.months / 12;
+        return {
+          type: "year",
+          banner: "Happy " + plural(y, "year") + " together 💗",
+          title: "Happy " + plural(y, "year") + "!",
+          sub: plural(y, "year") + " of you and me."
+        };
+      }
+      return {
+        type: "month",
+        banner: "Happy " + plural(md.months, "month") + " together 💗",
+        title: "Happy " + plural(md.months, "month") + "!",
+        sub: plural(md.months, "month") + " of you and me."
+      };
+    }
+    return null;
+  }
+
   function renderAnniversary(date) {
     if (!els.anniv) return;
     els.anniv.innerHTML = "";
@@ -74,27 +113,53 @@
     var togetherDays = daysBetween(TOGETHER, date);
     var metDays = daysBetween(MET, date);
 
-    // Special banner: the day itself, or a monthly / yearly turn.
-    var banner = "";
-    if (togetherDays === 0) banner = "The day it all began 💗";
-    else if (togetherDays > 0) {
-      var md = monthsAndDays(TOGETHER, date);
-      if (date.getDate() === TOGETHER.getDate() && togetherDays > 0) {
-        if (md.months % 12 === 0)
-          banner = "Happy " + plural(md.months / 12, "year") + " together 💗";
-        else
-          banner = "Happy " + plural(md.months, "month") + " together 💗";
-      }
-    }
-    if (banner) {
+    var milestone = getMilestone(date);
+    if (milestone) {
       var b = document.createElement("p");
       b.className = "anniv__banner";
-      b.textContent = banner;
+      b.textContent = milestone.banner;
       els.anniv.appendChild(b);
     }
 
     if (togetherDays >= 0) els.anniv.appendChild(pill("Together", togetherDays));
     if (metDays >= 0) els.anniv.appendChild(pill("Since we met", metDays));
+  }
+
+  var lastCelebrated = null;
+
+  function celebrate(date, milestone) {
+    var key = date.toDateString();
+    if (lastCelebrated === key) return; // don't re-pop on re-render of same day
+    lastCelebrated = key;
+
+    els.modalEyebrow.textContent = formatDate(date);
+    els.modalTitle.textContent = milestone.title;
+    els.modalSub.textContent = milestone.sub;
+
+    makeHearts();
+    els.modal.classList.add("open");
+    els.modal.setAttribute("aria-hidden", "false");
+  }
+
+  function closeModal() {
+    els.modal.classList.remove("open");
+    els.modal.setAttribute("aria-hidden", "true");
+  }
+
+  function makeHearts() {
+    var host = els.modalHearts;
+    host.innerHTML = "";
+    var glyphs = ["♥", "♡", "❤"];
+    for (var i = 0; i < 16; i++) {
+      var s = document.createElement("span");
+      s.textContent = glyphs[i % glyphs.length];
+      s.style.left = Math.random() * 100 + "%";
+      s.style.fontSize = 0.9 + Math.random() * 1.4 + "rem";
+      s.style.animationDuration = 1.8 + Math.random() * 1.8 + "s";
+      s.style.animationDelay = Math.random() * 0.8 + "s";
+      s.style.opacity = "0";
+      host.appendChild(s);
+    }
   }
 
   function pill(label, days) {
@@ -146,6 +211,9 @@
     renderAnniversary(date);
     applyBackground(date);
 
+    var milestone = getMilestone(date);
+    if (milestone) celebrate(date, milestone);
+
     // replay fade animation
     els.poem.classList.remove("fade");
     void els.poem.offsetWidth;
@@ -179,8 +247,15 @@
     els.next.addEventListener("click", function () { go(1); });
     els.today.addEventListener("click", function () { offset = 0; render(); });
     document.addEventListener("keydown", function (e) {
+      if (els.modal.classList.contains("open")) {
+        if (e.key === "Escape") closeModal();
+        return;
+      }
       if (e.key === "ArrowLeft") go(-1);
       else if (e.key === "ArrowRight") go(1);
+    });
+    els.modal.addEventListener("click", function (e) {
+      if (e.target.hasAttribute("data-close")) closeModal();
     });
   }
 
