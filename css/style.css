@@ -6,8 +6,12 @@
   --ink: #3a2530;
   --ink-soft: #7a5a66;
   --accent: #b5546e;
+  --accent-dark: #8f3d55;
+  --accent-soft: rgba(181, 84, 110, 0.1);
   --gold: #c99a5b;
   --shadow: rgba(40, 12, 30, 0.45);
+  --btn-face: linear-gradient(145deg, #fffdfb, #f3e3e6);
+  transition: --accent 0.8s ease;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,6 +126,7 @@ body {
   line-height: 1.2;
   color: var(--accent);
   margin-bottom: 1.3rem;
+  transition: color 0.8s ease;
 }
 .poem__body {
   font-size: 1.22rem;
@@ -171,24 +176,23 @@ body {
   height: 52px;
   border-radius: 50%;
   color: var(--accent);
-  background:
-    linear-gradient(145deg, #fffdfb, #f3e3e6);
+  background: var(--btn-face);
   box-shadow:
-    0 6px 14px -4px rgba(122, 40, 66, 0.32),
-    0 1px 2px rgba(122, 40, 66, 0.18),
+    0 6px 14px -4px var(--shadow),
+    0 1px 2px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -2px 4px rgba(181, 84, 110, 0.12);
+    inset 0 -2px 4px var(--accent-soft);
 }
 .btn--round svg {
   transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .btn--round:hover {
   color: #fff;
-  background: linear-gradient(145deg, #c65f79, #a63f5c);
+  background: linear-gradient(145deg, var(--accent), var(--accent-dark));
   transform: translateY(-3px);
   box-shadow:
-    0 12px 22px -6px rgba(122, 40, 66, 0.5),
-    0 2px 4px rgba(122, 40, 66, 0.25),
+    0 12px 22px -6px var(--shadow),
+    0 2px 4px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 #prev:hover svg { transform: translateX(-2px); }
@@ -196,29 +200,42 @@ body {
 .btn--round:active {
   transform: translateY(-1px) scale(0.96);
   box-shadow:
-    0 4px 10px -4px rgba(122, 40, 66, 0.4),
-    inset 0 2px 5px rgba(122, 40, 66, 0.3);
+    0 4px 10px -4px var(--shadow),
+    inset 0 2px 5px rgba(0, 0, 0, 0.28);
 }
 
-/* Ghost "Today" pill */
+/* Premium "Today" pill */
 .btn--ghost {
-  padding: 0.7rem 1.5rem;
-  letter-spacing: 0.16em;
+  padding: 0.85rem 1.7rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 0.72rem;
-  color: var(--ink-soft);
-  background: transparent;
-  border: 1px solid rgba(181, 84, 110, 0.35);
+  font-weight: 500;
+  color: var(--accent-dark);
+  background: var(--btn-face);
+  border: 1px solid var(--accent-soft);
   border-radius: 999px;
+  box-shadow:
+    0 6px 14px -5px var(--shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px var(--accent-soft);
 }
 .btn--ghost:hover {
   color: #fff;
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -8px rgba(122, 40, 66, 0.5);
+  background: linear-gradient(145deg, var(--accent), var(--accent-dark));
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 22px -6px var(--shadow),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-.btn--ghost:active { transform: translateY(0); }
+.btn--ghost:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow:
+    0 4px 10px -4px var(--shadow),
+    inset 0 2px 5px rgba(0, 0, 0, 0.25);
+}
 
 .anniv {
   margin-top: 1.4rem;
@@ -235,19 +252,22 @@ body {
   font-size: 1.15rem;
   color: var(--accent);
   margin-bottom: 0.2rem;
+  transition: color 0.8s ease;
 }
 .anniv__pill {
   font-size: 0.82rem;
   letter-spacing: 0.04em;
   color: var(--ink-soft);
-  background: rgba(181, 84, 110, 0.09);
-  border: 1px solid rgba(181, 84, 110, 0.22);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-soft);
   border-radius: 999px;
   padding: 0.3rem 0.85rem;
+  transition: background 0.8s ease, border-color 0.8s ease;
 }
 .anniv__pill b {
   color: var(--accent);
   font-weight: 600;
+  transition: color 0.8s ease;
 }
 
 .sign {

@@ -175,14 +175,118 @@
     var name = backgrounds[mod(dayNumber(date), backgrounds.length)];
     var url = "assets/img/" + name;
     var img = new Image();
+    img.crossOrigin = "anonymous";
     img.onload = function () {
       els.bg.style.backgroundImage = "url('" + url + "')";
       els.bg.classList.add("show");
+      themeFromImage(img);
     };
     img.onerror = function () {
       els.bg.classList.remove("show");
     };
     img.src = url;
+  }
+
+  // --- Dynamic theme: derive an accent colour from the day's photo ---
+
+  var themeCanvas = document.createElement("canvas");
+  var CARD_RGB = [255, 250, 246];
+
+  function relLum(c) {
+    var v = c.map(function (x) {
+      x /= 255;
+      return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
+  }
+  function contrast(a, b) {
+    var l1 = relLum(a) + 0.05, l2 = relLum(b) + 0.05;
+    return l1 > l2 ? l1 / l2 : l2 / l1;
+  }
+
+  function themeFromImage(img) {
+    var rgb = averageColor(img);
+    if (!rgb) return;
+    var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
+    // Keep the photo's hue, but force a saturated accent that stays
+    // readable on the cream card — darken until contrast is enough.
+    var h = hsl[0];
+    var s = clamp(hsl[1], 0.42, 0.8);
+    var l = 0.46;
+    var accent = hslToRgb(h, s, l);
+    while (contrast(accent, CARD_RGB) < 4.2 && l > 0.24) {
+      l -= 0.02;
+      accent = hslToRgb(h, s, l);
+    }
+    var accentDark = hslToRgb(h, s, Math.max(0.16, l - 0.12));
+    var root = document.documentElement.style;
+    root.setProperty("--accent", rgbCss(accent));
+    root.setProperty("--accent-dark", rgbCss(accentDark));
+    root.setProperty(
+      "--accent-soft",
+      "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0.12)"
+    );
+  }
+
+  function averageColor(img) {
+    try {
+      var w = 24, h = 24;
+      themeCanvas.width = w;
+      themeCanvas.height = h;
+      var ctx = themeCanvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      var data = ctx.getImageData(0, 0, w, h).data;
+      var r = 0, g = 0, b = 0, n = 0;
+      for (var i = 0; i < data.length; i += 4) {
+        r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+      }
+      return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+    } catch (e) {
+      // Tainted canvas (cross-origin) — keep the default theme.
+      console.warn("Colour sample skipped:", e.message);
+      return null;
+    }
+  }
+
+  function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+
+  function rgbCss(c) { return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if (max === min) { h = s = 0; }
+    else {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+      else if (max === g) h = (b - r) / d + 2;
+      else h = (r - g) / d + 4;
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+
+  function hslToRgb(h, s, l) {
+    var r, g, b;
+    if (s === 0) { r = g = b = l; }
+    else {
+      var hue2rgb = function (p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
   }
 
   function render() {
