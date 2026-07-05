@@ -199,6 +199,7 @@
     loadJson("data/backgrounds.json")
       .then(function (list) {
         backgrounds = Array.isArray(list) ? list : [];
+        preloadBackgrounds();
         if (poems.length) applyBackground(currentDate());
       })
       .catch(function (err) {
@@ -222,6 +223,14 @@
     var d = new Date();
     d.setDate(d.getDate() + offset);
     return d;
+  }
+
+  // Fetch every background once so day-switches swap from cache instantly.
+  function preloadBackgrounds() {
+    backgrounds.forEach(function (name) {
+      var img = new Image();
+      img.src = "assets/img/" + name;
+    });
   }
 
   document.addEventListener("DOMContentLoaded", boot);
