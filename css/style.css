@@ -142,7 +142,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.7rem;
+  gap: 1rem;
   margin-top: 2rem;
   padding-top: 1.4rem;
   border-top: 1px solid rgba(201, 154, 91, 0.3);
@@ -151,27 +151,74 @@ body {
   font-family: inherit;
   font-size: 1rem;
   color: var(--ink);
-  background: rgba(181, 84, 110, 0.1);
-  border: 1px solid rgba(181, 84, 110, 0.3);
-  border-radius: 999px;
-  width: 46px;
-  height: 46px;
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.22s ease, color 0.22s ease, background 0.3s ease;
 }
-.btn--ghost {
-  width: auto;
-  padding: 0 1.3rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 0.8rem;
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(181, 84, 110, 0.35);
 }
-.btn:hover {
-  background: var(--accent);
+
+/* Round icon buttons */
+.btn--round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  color: var(--accent);
+  background:
+    linear-gradient(145deg, #fffdfb, #f3e3e6);
+  box-shadow:
+    0 6px 14px -4px rgba(122, 40, 66, 0.32),
+    0 1px 2px rgba(122, 40, 66, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(181, 84, 110, 0.12);
+}
+.btn--round svg {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn--round:hover {
   color: #fff;
-  transform: translateY(-2px);
+  background: linear-gradient(145deg, #c65f79, #a63f5c);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 22px -6px rgba(122, 40, 66, 0.5),
+    0 2px 4px rgba(122, 40, 66, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-.btn:active { transform: translateY(0); }
+#prev:hover svg { transform: translateX(-2px); }
+#next:hover svg { transform: translateX(2px); }
+.btn--round:active {
+  transform: translateY(-1px) scale(0.96);
+  box-shadow:
+    0 4px 10px -4px rgba(122, 40, 66, 0.4),
+    inset 0 2px 5px rgba(122, 40, 66, 0.3);
+}
+
+/* Ghost "Today" pill */
+.btn--ghost {
+  padding: 0.7rem 1.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid rgba(181, 84, 110, 0.35);
+  border-radius: 999px;
+}
+.btn--ghost:hover {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -8px rgba(122, 40, 66, 0.5);
+}
+.btn--ghost:active { transform: translateY(0); }
 
 .anniv {
   margin-top: 1.4rem;
