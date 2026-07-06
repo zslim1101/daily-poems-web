@@ -29,12 +29,15 @@
     modalHearts: document.getElementById("modal-hearts"),
     modalEyebrow: document.getElementById("modal-eyebrow"),
     modalTitle: document.getElementById("modal-title"),
-    modalSub: document.getElementById("modal-sub")
+    modalSub: document.getElementById("modal-sub"),
+    note: document.getElementById("note"),
+    noteText: document.getElementById("note-text")
   };
 
   var poems = [];
   var backgrounds = [];
   var messages = DEFAULT_MESSAGES;
+  var notes = ["You're my favourite person 💗"];
   var offset = 0; // 0 = today, -1 = yesterday, +1 = tomorrow...
 
   function dayNumber(date) {
@@ -339,7 +342,7 @@
     if (!host) return;
     var glyphs = ["❀", "✿", "❁", "❃", "♡"];
     var total = 16;
-    var pillCount = 3; // keep pills subtle
+    var pillCount = 1; // a single Vitamin L pill per day
 
     for (var i = 0; i < total; i++) {
       var isPill = i < pillCount;
@@ -347,10 +350,17 @@
       if (isPill) {
         el = document.createElement("span");
         el.className = "pill-l";
+        el.setAttribute("role", "button");
+        el.setAttribute("tabindex", "0");
+        el.setAttribute("aria-label", "A dose of love — open note");
         var label = document.createElement("b");
         label.textContent = "L";
         el.appendChild(label);
-        el.style.setProperty("--scale", (0.75 + Math.random() * 0.6).toFixed(2));
+        el.style.setProperty("--scale", (0.9 + Math.random() * 0.4).toFixed(2));
+        el.addEventListener("click", openNote);
+        el.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openNote(); }
+        });
       } else {
         el = document.createElement("span");
         el.className = "flower";
@@ -379,6 +389,10 @@
     els.next.addEventListener("click", function () { go(1); });
     els.today.addEventListener("click", function () { offset = 0; render(); });
     document.addEventListener("keydown", function (e) {
+      if (els.note && els.note.classList.contains("open")) {
+        if (e.key === "Escape") closeNote();
+        return;
+      }
       if (els.modal.classList.contains("open")) {
         if (e.key === "Escape") closeModal();
         return;
@@ -389,6 +403,11 @@
     els.modal.addEventListener("click", function (e) {
       if (e.target.hasAttribute("data-close")) closeModal();
     });
+    if (els.note) {
+      els.note.addEventListener("click", function (e) {
+        if (e.target.hasAttribute("data-note-close")) closeNote();
+      });
+    }
     if (els.love) els.love.addEventListener("click", sendLove);
   }
 
@@ -397,6 +416,21 @@
     var url =
       "https://t.me/" + TG_USER + "?text=" + encodeURIComponent(msg);
     window.open(url, "_blank", "noopener");
+  }
+
+  function openNote() {
+    if (!els.note) return;
+    // One fixed note per day — same all day, changes at midnight.
+    var idx = mod(dayNumber(currentDate()), notes.length);
+    els.noteText.textContent = notes[idx];
+    els.note.classList.add("open");
+    els.note.setAttribute("aria-hidden", "false");
+  }
+
+  function closeNote() {
+    if (!els.note) return;
+    els.note.classList.remove("open");
+    els.note.setAttribute("aria-hidden", "true");
   }
 
   function loadJson(path) {
@@ -427,6 +461,14 @@
       })
       .catch(function (err) {
         console.warn("Using default love messages:", err);
+      });
+
+    loadJson("data/notes.json")
+      .then(function (list) {
+        if (Array.isArray(list) && list.length) notes = list;
+      })
+      .catch(function (err) {
+        console.warn("Using default notes:", err);
       });
 
     loadJson("data/poems.json")

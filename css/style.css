@@ -80,6 +80,8 @@ body {
   --scale: 1;
   position: absolute;
   top: -8vh;
+  pointer-events: auto;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -363,6 +365,46 @@ body {
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-color: var(--accent-soft);
+}
+
+/* Vitamin L note modal */
+.modal__card--note { max-width: 360px; padding-top: 2.2rem; }
+.note__capsule {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 54px;
+  height: 23px;
+  padding-right: 9px;
+  margin-bottom: 1rem;
+  border-radius: 999px;
+  background: #fffdfb;
+  border: 1px solid rgba(120, 40, 60, 0.2);
+  box-shadow: 0 3px 8px -3px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--accent-dark);
+  position: relative;
+  overflow: hidden;
+  transform: rotate(-8deg);
+}
+.note__capsule::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 50%;
+  background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+  border-radius: 999px 0 0 999px;
+}
+.note__capsule b { position: relative; z-index: 1; }
+.note__text {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.45rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 1.7rem;
 }
 
 .sign {
