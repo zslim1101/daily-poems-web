@@ -9,6 +9,10 @@
   var MET = new Date(2026, 0, 3);        // first met — 3 Jan 2026
   var TOGETHER = new Date(2026, 0, 24);  // officially together — 24 Jan 2026
 
+  // "Send love back" → opens Telegram to this user with a prefilled message.
+  var TG_USER = "zs_lim";
+  var DEFAULT_MESSAGES = ["Thinking of you and smiling. I love you 💗"];
+
   var els = {
     date: document.getElementById("date"),
     poem: document.getElementById("poem"),
@@ -20,6 +24,7 @@
     prev: document.getElementById("prev"),
     next: document.getElementById("next"),
     today: document.getElementById("today"),
+    love: document.getElementById("love"),
     modal: document.getElementById("modal"),
     modalHearts: document.getElementById("modal-hearts"),
     modalEyebrow: document.getElementById("modal-eyebrow"),
@@ -29,6 +34,7 @@
 
   var poems = [];
   var backgrounds = [];
+  var messages = DEFAULT_MESSAGES;
   var offset = 0; // 0 = today, -1 = yesterday, +1 = tomorrow...
 
   function dayNumber(date) {
@@ -359,6 +365,14 @@
     els.modal.addEventListener("click", function (e) {
       if (e.target.hasAttribute("data-close")) closeModal();
     });
+    if (els.love) els.love.addEventListener("click", sendLove);
+  }
+
+  function sendLove() {
+    var msg = messages[Math.floor(Math.random() * messages.length)];
+    var url =
+      "https://t.me/" + TG_USER + "?text=" + encodeURIComponent(msg);
+    window.open(url, "_blank", "noopener");
   }
 
   function loadJson(path) {
@@ -381,6 +395,14 @@
       })
       .catch(function (err) {
         console.warn("No backgrounds loaded:", err);
+      });
+
+    loadJson("data/messages.json")
+      .then(function (list) {
+        if (Array.isArray(list) && list.length) messages = list;
+      })
+      .catch(function (err) {
+        console.warn("Using default love messages:", err);
       });
 
     loadJson("data/poems.json")
