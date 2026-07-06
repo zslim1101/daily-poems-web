@@ -333,73 +333,45 @@
     render();
   }
 
-  // Vitamin L capsules raining down.
+  // Falling flower petals, with a few Vitamin L capsules mixed in.
   function makePetals() {
     var host = document.querySelector(".petals");
     if (!host) return;
-    for (var i = 0; i < 16; i++) {
-      var pill = document.createElement("span");
-      pill.className = "pill-l";
-      var label = document.createElement("b");
-      label.textContent = "L";
-      pill.appendChild(label);
-      pill.style.left = Math.random() * 100 + "vw";
-      pill.style.animationDuration = 9 + Math.random() * 10 + "s";
-      pill.style.animationDelay = -Math.random() * 14 + "s";
-      pill.style.setProperty("--scale", (0.8 + Math.random() * 0.9).toFixed(2));
-      host.appendChild(pill);
-    }
-  }
+    var glyphs = ["❀", "✿", "❁", "❃", "♡"];
+    var total = 16;
+    var pillCount = 3; // keep pills subtle
 
-  // Roaming button — drifts and bounces off the screen edges.
-  function startRoaming() {
-    var el = els.love;
-    if (!el) return;
-
-    var reduce = window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    var size = el.offsetWidth || 60;
-    var margin = 12;
-    function maxX() { return window.innerWidth - size - margin; }
-    function maxY() { return window.innerHeight - size - margin; }
-
-    if (reduce) {
-      el.style.transform =
-        "translate(" + maxX() + "px," + maxY() + "px)";
-      return;
-    }
-
-    var x = margin + Math.random() * Math.max(1, maxX() - margin);
-    var y = margin + Math.random() * Math.max(1, maxY() - margin);
-    var angle = Math.random() * Math.PI * 2;
-    var speed = 1.4;
-    var vx = Math.cos(angle) * speed;
-    var vy = Math.sin(angle) * speed;
-    var paused = false;
-
-    el.addEventListener("pointerenter", function () { paused = true; });
-    el.addEventListener("pointerleave", function () { paused = false; });
-
-    function tick() {
-      if (!paused) {
-        x += vx;
-        y += vy;
-        if (x <= margin) { x = margin; vx = Math.abs(vx); }
-        else if (x >= maxX()) { x = maxX(); vx = -Math.abs(vx); }
-        if (y <= margin) { y = margin; vy = Math.abs(vy); }
-        else if (y >= maxY()) { y = maxY(); vy = -Math.abs(vy); }
-        el.style.transform = "translate(" + x + "px," + y + "px)";
+    for (var i = 0; i < total; i++) {
+      var isPill = i < pillCount;
+      var el;
+      if (isPill) {
+        el = document.createElement("span");
+        el.className = "pill-l";
+        var label = document.createElement("b");
+        label.textContent = "L";
+        el.appendChild(label);
+        el.style.setProperty("--scale", (0.75 + Math.random() * 0.6).toFixed(2));
+      } else {
+        el = document.createElement("span");
+        el.className = "flower";
+        el.textContent = glyphs[i % glyphs.length];
+        el.style.fontSize = (0.8 + Math.random() * 1.1).toFixed(2) + "rem";
+        el.style.color =
+          "rgba(255, " + (180 + Math.floor(Math.random() * 60)) + ", 210, 0.8)";
       }
-      requestAnimationFrame(tick);
+      el.style.left = (Math.random() * 100).toFixed(2) + "vw";
+      el.style.animationDuration = (9 + Math.random() * 10).toFixed(1) + "s";
+      el.style.animationDelay = (-Math.random() * 14).toFixed(1) + "s";
+      host.appendChild(el);
     }
-    el.style.transform = "translate(" + x + "px," + y + "px)";
-    requestAnimationFrame(tick);
 
-    window.addEventListener("resize", function () {
-      x = Math.min(x, maxX());
-      y = Math.min(y, maxY());
-    });
+    // Shuffle DOM order so the pills aren't clustered at one edge.
+    var kids = Array.prototype.slice.call(host.children);
+    for (var j = kids.length - 1; j > 0; j--) {
+      var k = Math.floor(Math.random() * (j + 1));
+      host.appendChild(kids[k]);
+      kids.splice(k, 1);
+    }
   }
 
   function bind() {
@@ -437,7 +409,6 @@
   function boot() {
     makePetals();
     bind();
-    startRoaming();
 
     // Backgrounds are optional — never block the poem on them.
     loadJson("data/backgrounds.json")

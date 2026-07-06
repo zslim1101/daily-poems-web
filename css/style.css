@@ -66,7 +66,16 @@ body {
   overflow: hidden;
   z-index: 0;
 }
-/* Vitamin L capsule pills raining down */
+/* Falling flower petals (colour + size set inline per element) */
+.petals .flower {
+  position: absolute;
+  top: -8vh;
+  opacity: 0;
+  animation: fall linear infinite;
+  will-change: transform, opacity;
+}
+
+/* Vitamin L capsule pills, sprinkled subtly among the petals */
 .pill-l {
   --scale: 1;
   position: absolute;
@@ -323,75 +332,37 @@ body {
   transition: color 0.8s ease;
 }
 
-/* "Send love back" button that roams and bounces around the screen */
-.love-fab {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 9;
-  display: inline-flex;
+/* Quiet inline "send love back" button under the poem */
+.love-inline {
+  display: flex;
+  width: fit-content;
   align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  padding: 0;
-  color: #fff;
-  cursor: pointer;
+  gap: 0.45rem;
+  margin: 1.1rem auto 0;
+  padding: 0.4rem 0.6rem;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  background: none;
   border: none;
-  border-radius: 50%;
-  background: linear-gradient(145deg, var(--accent), var(--accent-dark));
-  box-shadow:
-    0 10px 24px -6px var(--shadow),
-    0 2px 6px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: box-shadow 0.25s ease, background 0.8s ease;
-  will-change: transform;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
-.love-fab__heart { animation: heartbeat 1.6s ease-in-out infinite; }
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  15%      { transform: scale(1.18); }
-  30%      { transform: scale(1); }
-  45%      { transform: scale(1.12); }
+.love-inline svg {
+  color: var(--accent);
+  transition: color 0.8s ease, transform 0.3s ease;
 }
-.love-fab:hover {
-  box-shadow:
-    0 16px 30px -6px var(--shadow),
-    0 3px 8px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
-}
-.love-fab:focus-visible {
+.love-inline:hover { color: var(--accent-dark); }
+.love-inline:hover svg { transform: scale(1.18); }
+.love-inline:active svg { transform: scale(0.92); }
+.love-inline:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px var(--accent-soft), 0 10px 24px -6px var(--shadow);
-}
-/* Hover tooltip label */
-.love-fab__tip {
-  position: absolute;
-  right: 72px;
-  white-space: nowrap;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  background: var(--card);
-  padding: 0.5rem 0.85rem;
-  border-radius: 999px;
-  box-shadow: 0 6px 16px -6px var(--shadow);
-  opacity: 0;
-  transform: translateX(8px);
-  pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.love-fab:hover .love-fab__tip,
-.love-fab:focus-visible .love-fab__tip {
-  opacity: 1;
-  transform: translateX(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .love-fab, .love-fab__heart { animation: none; }
-}
-@media (max-width: 480px) {
-  .love-fab { right: 18px; bottom: 18px; width: 54px; height: 54px; }
-  .love-fab__tip { display: none; }
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--accent-soft);
 }
 
 .sign {
