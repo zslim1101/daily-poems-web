@@ -66,18 +66,63 @@ body {
   overflow: hidden;
   z-index: 0;
 }
-.petals span {
+/* Vitamin L capsule pills raining down */
+.pill-l {
+  --scale: 1;
   position: absolute;
   top: -8vh;
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: calc(30px * var(--scale));
+  height: calc(13px * var(--scale));
+  padding-right: calc(5px * var(--scale));
+  border-radius: 999px;
+  background: #fffdfb;
+  border: 1px solid rgba(120, 40, 60, 0.2);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+  font-weight: 800;
+  font-size: calc(8px * var(--scale));
+  color: var(--accent-dark);
   opacity: 0;
+  overflow: hidden;
   animation: fall linear infinite;
   will-change: transform, opacity;
+  transition: color 0.8s ease;
+}
+.pill-l::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+  border-radius: 999px 0 0 999px;
+  transition: background 0.8s ease;
+}
+.pill-l::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  background: rgba(120, 40, 60, 0.18);
+}
+.pill-l b {
+  position: relative;
+  z-index: 1;
+  line-height: 1;
 }
 @keyframes fall {
   0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-  10%  { opacity: 0.85; }
-  90%  { opacity: 0.85; }
+  10%  { opacity: 0.9; }
+  90%  { opacity: 0.9; }
   100% { transform: translateY(110vh) rotate(320deg); opacity: 0; }
 }
 
@@ -278,11 +323,11 @@ body {
   transition: color 0.8s ease;
 }
 
-/* Floating "send love back" button that gently drifts */
+/* "Send love back" button that roams and bounces around the screen */
 .love-fab {
   position: fixed;
-  right: 26px;
-  bottom: 26px;
+  left: 0;
+  top: 0;
   z-index: 9;
   display: inline-flex;
   align-items: center;
@@ -299,15 +344,8 @@ body {
     0 10px 24px -6px var(--shadow),
     0 2px 6px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  animation: drift 7s ease-in-out infinite;
   transition: box-shadow 0.25s ease, background 0.8s ease;
-}
-@keyframes drift {
-  0%   { transform: translate(0, 0) rotate(0deg); }
-  25%  { transform: translate(-10px, -14px) rotate(-4deg); }
-  50%  { transform: translate(4px, -22px) rotate(3deg); }
-  75%  { transform: translate(-8px, -10px) rotate(-2deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
+  will-change: transform;
 }
 .love-fab__heart { animation: heartbeat 1.6s ease-in-out infinite; }
 @keyframes heartbeat {
@@ -317,13 +355,11 @@ body {
   45%      { transform: scale(1.12); }
 }
 .love-fab:hover {
-  animation-play-state: paused;
   box-shadow:
     0 16px 30px -6px var(--shadow),
     0 3px 8px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
-.love-fab:active { transform: scale(0.94); }
 .love-fab:focus-visible {
   outline: none;
   box-shadow: 0 0 0 4px var(--accent-soft), 0 10px 24px -6px var(--shadow);

@@ -333,21 +333,73 @@
     render();
   }
 
+  // Vitamin L capsules raining down.
   function makePetals() {
     var host = document.querySelector(".petals");
     if (!host) return;
-    var glyphs = ["❀", "✿", "❁", "❃", "♡"];
-    for (var i = 0; i < 14; i++) {
-      var s = document.createElement("span");
-      s.textContent = glyphs[i % glyphs.length];
-      s.style.left = Math.random() * 100 + "vw";
-      s.style.animationDuration = 9 + Math.random() * 10 + "s";
-      s.style.animationDelay = -Math.random() * 12 + "s";
-      s.style.fontSize = 0.8 + Math.random() * 1.1 + "rem";
-      s.style.color =
-        "rgba(255, " + (180 + Math.floor(Math.random() * 60)) + ", 210, 0.8)";
-      host.appendChild(s);
+    for (var i = 0; i < 16; i++) {
+      var pill = document.createElement("span");
+      pill.className = "pill-l";
+      var label = document.createElement("b");
+      label.textContent = "L";
+      pill.appendChild(label);
+      pill.style.left = Math.random() * 100 + "vw";
+      pill.style.animationDuration = 9 + Math.random() * 10 + "s";
+      pill.style.animationDelay = -Math.random() * 14 + "s";
+      pill.style.setProperty("--scale", (0.8 + Math.random() * 0.9).toFixed(2));
+      host.appendChild(pill);
     }
+  }
+
+  // Roaming button — drifts and bounces off the screen edges.
+  function startRoaming() {
+    var el = els.love;
+    if (!el) return;
+
+    var reduce = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var size = el.offsetWidth || 60;
+    var margin = 12;
+    function maxX() { return window.innerWidth - size - margin; }
+    function maxY() { return window.innerHeight - size - margin; }
+
+    if (reduce) {
+      el.style.transform =
+        "translate(" + maxX() + "px," + maxY() + "px)";
+      return;
+    }
+
+    var x = margin + Math.random() * Math.max(1, maxX() - margin);
+    var y = margin + Math.random() * Math.max(1, maxY() - margin);
+    var angle = Math.random() * Math.PI * 2;
+    var speed = 1.4;
+    var vx = Math.cos(angle) * speed;
+    var vy = Math.sin(angle) * speed;
+    var paused = false;
+
+    el.addEventListener("pointerenter", function () { paused = true; });
+    el.addEventListener("pointerleave", function () { paused = false; });
+
+    function tick() {
+      if (!paused) {
+        x += vx;
+        y += vy;
+        if (x <= margin) { x = margin; vx = Math.abs(vx); }
+        else if (x >= maxX()) { x = maxX(); vx = -Math.abs(vx); }
+        if (y <= margin) { y = margin; vy = Math.abs(vy); }
+        else if (y >= maxY()) { y = maxY(); vy = -Math.abs(vy); }
+        el.style.transform = "translate(" + x + "px," + y + "px)";
+      }
+      requestAnimationFrame(tick);
+    }
+    el.style.transform = "translate(" + x + "px," + y + "px)";
+    requestAnimationFrame(tick);
+
+    window.addEventListener("resize", function () {
+      x = Math.min(x, maxX());
+      y = Math.min(y, maxY());
+    });
   }
 
   function bind() {
@@ -385,6 +437,7 @@
   function boot() {
     makePetals();
     bind();
+    startRoaming();
 
     // Backgrounds are optional — never block the poem on them.
     loadJson("data/backgrounds.json")
