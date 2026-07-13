@@ -42,16 +42,6 @@
     ]
   },
   {
-    "title": "i carry your heart with me",
-    "author": "E. E. Cummings",
-    "lines": [
-      "i carry your heart with me(i carry it in",
-      "my heart)i am never without it(anywhere",
-      "i go you go,my dear;and whatever is done",
-      "by only me is your doing,my darling)"
-    ]
-  },
-  {
     "title": "Bright Star",
     "author": "John Keats",
     "lines": [
@@ -128,16 +118,6 @@
     ]
   },
   {
-    "title": "Somewhere I Have Never Travelled",
-    "author": "E. E. Cummings",
-    "lines": [
-      "somewhere i have never travelled, gladly beyond",
-      "any experience, your eyes have their silence:",
-      "in your most frail gesture are things which enclose me,",
-      "or which i cannot touch because they are too near"
-    ]
-  },
-  {
     "title": "The Sun Rising",
     "author": "John Donne",
     "lines": [
@@ -175,16 +155,6 @@
       "When first she gleamed upon my sight;",
       "A lovely Apparition, sent",
       "To be a moment's ornament."
-    ]
-  },
-  {
-    "title": "Love",
-    "author": "Roy Croft",
-    "lines": [
-      "I love you,",
-      "Not only for what you are,",
-      "But for what I am",
-      "When I am with you."
     ]
   },
   {
@@ -277,39 +247,6 @@
       "Whose nest is in a watered shoot;",
       "My heart is like an apple-tree",
       "Whose boughs are bent with thickset fruit."
-    ]
-  },
-  {
-    "title": "Now Touch the Air Softly",
-    "author": "William Jay Smith",
-    "lines": [
-      "Now touch the air softly,",
-      "Step gently. One, two...",
-      "I'll love you till roses",
-      "Are robin's-egg blue."
-    ]
-  },
-  {
-    "title": "Unending Love",
-    "author": "Rabindranath Tagore",
-    "lines": [
-      "I seem to have loved you in numberless forms, numberless times,",
-      "In life after life, in age after age forever.",
-      "My spellbound heart has made and remade the necklace of songs",
-      "That you take as a gift, wear round your neck in your many forms."
-    ]
-  },
-  {
-    "title": "Variation on the Word Sleep",
-    "author": "Margaret Atwood",
-    "lines": [
-      "I would like to watch you sleeping,",
-      "which may not happen.",
-      "I would like to watch you,",
-      "sleeping. I would like to sleep",
-      "with you, to enter",
-      "your sleep as its smooth dark wave",
-      "slides over my head."
     ]
   },
   {
@@ -467,6 +404,157 @@
       "over harbor and city",
       "on silent haunches",
       "and then moves on."
+    ]
+  },
+  {
+    "title": "Sonnet 130",
+    "author": "William Shakespeare",
+    "lines": [
+      "My mistress' eyes are nothing like the sun;",
+      "Coral is far more red than her lips' red;",
+      "If snow be white, why then her breasts are dun;",
+      "If hairs be wires, black wires grow on her head."
+    ]
+  },
+  {
+    "title": "So We'll Go No More a Roving",
+    "author": "Lord Byron",
+    "lines": [
+      "So, we'll go no more a roving",
+      "So late into the night,",
+      "Though the heart be still as loving,",
+      "And the moon be still as bright."
+    ]
+  },
+  {
+    "title": "I Am Not Yours",
+    "author": "Sara Teasdale",
+    "lines": [
+      "I am not yours, not lost in you,",
+      "Not lost, although I long to be",
+      "Lost as a candle lit at noon,",
+      "Lost as a snowflake in the sea."
+    ]
+  },
+  {
+    "title": "Remember",
+    "author": "Christina Rossetti",
+    "lines": [
+      "Remember me when I am gone away,",
+      "Gone far away into the silent land;",
+      "When you can no more hold me by the hand,",
+      "Nor I half turn to go yet turning stay."
+    ]
+  },
+  {
+    "title": "She Dwelt Among the Untrodden Ways",
+    "author": "William Wordsworth",
+    "lines": [
+      "She dwelt among the untrodden ways",
+      "Beside the springs of Dove,",
+      "A Maid whom there were none to praise",
+      "And very few to love:"
+    ]
+  },
+  {
+    "title": "Now Sleeps the Crimson Petal",
+    "author": "Alfred, Lord Tennyson",
+    "lines": [
+      "Now sleeps the crimson petal, now the white;",
+      "Nor waves the cypress in the palace walk;",
+      "Now lies the Earth all Danaë to the stars,",
+      "And all thy heart lies open unto me."
+    ]
+  },
+  {
+    "title": "A Valediction: Forbidding Mourning",
+    "author": "John Donne",
+    "lines": [
+      "Our two souls therefore, which are one,",
+      "Though I must go, endure not yet",
+      "A breach, but an expansion,",
+      "Like gold to airy thinness beat."
+    ]
+  },
+  {
+    "title": "Nothing Gold Can Stay",
+    "author": "Robert Frost",
+    "lines": [
+      "Nature's first green is gold,",
+      "Her hardest hue to hold.",
+      "Her early leaf's a flower;",
+      "But only so an hour."
+    ]
+  },
+  {
+    "title": "Believe Me, if All Those Endearing Young Charms",
+    "author": "Thomas Moore",
+    "lines": [
+      "Believe me, if all those endearing young charms,",
+      "Which I gaze on so fondly to-day,",
+      "Were to change by to-morrow, and fleet in my arms,",
+      "Like fairy-gifts fading away,"
+    ]
+  },
+  {
+    "title": "My Heart's in the Highlands",
+    "author": "Robert Burns",
+    "lines": [
+      "My heart's in the Highlands, my heart is not here,",
+      "My heart's in the Highlands a-chasing the deer;",
+      "A-chasing the wild-deer, and following the roe,",
+      "My heart's in the Highlands, wherever I go."
+    ]
+  },
+  {
+    "title": "Love's Secret",
+    "author": "William Blake",
+    "lines": [
+      "Never seek to tell thy love,",
+      "Love that never told can be;",
+      "For the gentle wind does move",
+      "Silently, invisibly."
+    ]
+  },
+  {
+    "title": "A Dream Within a Dream",
+    "author": "Edgar Allan Poe",
+    "lines": [
+      "Take this kiss upon the brow!",
+      "And, in parting from you now,",
+      "Thus much let me avow—",
+      "You are not wrong, who deem",
+      "That my days have been a dream;"
+    ]
+  },
+  {
+    "title": "Barter",
+    "author": "Sara Teasdale",
+    "lines": [
+      "Life has loveliness to sell,",
+      "All beautiful and splendid things,",
+      "Blue waves whitened on a cliff,",
+      "Soaring fire that sways and sings,"
+    ]
+  },
+  {
+    "title": "To Celia",
+    "author": "Ben Jonson",
+    "lines": [
+      "Drink to me only with thine eyes,",
+      "And I will pledge with mine;",
+      "Or leave a kiss but in the cup,",
+      "And I'll not look for wine."
+    ]
+  },
+  {
+    "title": "Requiem",
+    "author": "Robert Louis Stevenson",
+    "lines": [
+      "Under the wide and starry sky,",
+      "Dig the grave and let me lie.",
+      "Glad did I live and gladly die,",
+      "And I laid me down with a will."
     ]
   }
 ]
