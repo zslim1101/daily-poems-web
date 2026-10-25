@@ -8,6 +8,7 @@
   // Milestone dates (local time).
   var MET = new Date(2026, 0, 3);        // first met — 3 Jan 2026
   var TOGETHER = new Date(2026, 0, 24);  // officially together — 24 Jan 2026
+  var BIRTHDAY = { month: 10, day: 11 };  // her birthday — 11 November
 
   // "Send love back" → opens Telegram to this user with a prefilled message.
   var TG_USER = "zs_lim";
@@ -84,6 +85,16 @@
   // Is `date` a milestone of the together-date? Returns null, or the
   // celebration copy for a monthly / yearly turn (or day zero).
   function getMilestone(date) {
+    // Her birthday wins over any other milestone that lands on the same day.
+    if (date.getMonth() === BIRTHDAY.month && date.getDate() === BIRTHDAY.day) {
+      return {
+        type: "birthday",
+        banner: "Happy birthday, my love 🎂",
+        title: "Happy Birthday!",
+        sub: "The world got better the day you were born."
+      };
+    }
+
     var togetherDays = daysBetween(TOGETHER, date);
     if (togetherDays === 0) {
       return {
